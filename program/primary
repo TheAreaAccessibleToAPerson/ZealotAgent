@@ -1,0 +1,59 @@
+using Butterfly;
+
+namespace Zealot.server
+{
+    public sealed class Client : Controller
+    {
+        public const string NAME = "program";
+
+        void Construction()
+        {
+            Logger.S_I.To(this, "start construction ...");
+            {
+            }
+            Logger.S_I.To(this, "end construction.");
+        }
+
+        void Start()
+        {
+            Logger.S_I.To(this, "starting ...");
+            {
+            }
+            Logger.S_I.To(this, "start.");
+        }
+
+        void Destruction()
+        {
+            Logger.S_I.To(this, "start destruction ...");
+            {
+            }
+            Logger.S_I.To(this, "end destruction.");
+        }
+
+        void Configurate()
+        {
+            Logger.S_I.To(this, "start configurate ...");
+            {
+            }
+            Logger.S_I.To(this, "end configurate.");
+        }
+
+        void Destroyed()
+        {
+            {
+            }
+            Logger.S_I.To(this, "destroyed.");
+        }
+
+        void Stop()
+        {
+            Logger.S_I.To(this, "stopping ...");
+            {
+                if (StateInformation.IsCallStart)
+                {
+                }
+            }
+            Logger.S_I.To(this, "stop");
+        }
+    }
+}

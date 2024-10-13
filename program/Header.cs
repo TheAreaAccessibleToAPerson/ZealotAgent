@@ -16,6 +16,7 @@ namespace Zealot
             SystemInformation("start construction ...");
             {
                 listen_events(Event.SYSTEM, Event.SYSTEM);
+                listen_events(Event.SYSTEM_1000_TIME_STEP, Event.SYSTEM, 1000);
                 listen_events(Event.LOGGER, Event.LOGGER);
 
                 input_to(ref Logger.S_I, Event.LOGGER, _writingText.SystemInformation);

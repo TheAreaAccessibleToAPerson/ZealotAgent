@@ -3,7 +3,7 @@ using Zealot.client.connection;
 
 namespace Zealot
 {
-    public sealed class Client : client.ZController
+    public sealed class Client : client.Controller
     {
         public const string NAME = "client";
 
@@ -11,7 +11,8 @@ namespace Zealot
         {
             Logger.S_I.To(this, "start construction ...");
             {
-                obj<TCP>(TCP.NAME);
+                obj<SSLShield>(SSLShield.NAME);
+                obj<TCPShield>(TCPShield.NAME);
             }
             Logger.S_I.To(this, "end construction.");
         }
@@ -20,6 +21,10 @@ namespace Zealot
         {
             Logger.S_I.To(this, "starting ...");
             {
+                send_message(ref State.I_initializeSSL, SSLShield.BUS.Client.Message.INITIALIZE);
+                send_message(ref State.I_initializeTCP, TCPShield.BUS.Client.Message.INITIALIZE);
+
+                invoke_event(State.Change, Event.SYSTEM);
             }
             Logger.S_I.To(this, "start.");
         }
@@ -53,6 +58,19 @@ namespace Zealot
             {
             }
             Logger.S_I.To(this, "stop");
+        }
+
+        public interface IEndInitialize 
+        {
+            public interface SSLConnection
+            {
+                public void EndInitialize(SSLShield.IConnection value);
+            }
+
+            public interface TCPConnection 
+            {
+                public void EndInitialize(TCPShield.IConnection value);
+            }
         }
     }
 }

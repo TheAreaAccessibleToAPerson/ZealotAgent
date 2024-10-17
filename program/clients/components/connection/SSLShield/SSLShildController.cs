@@ -17,7 +17,7 @@ namespace Zealot.client.connection._SSLShield
         /// </summary>
         protected void Initialize(Client.IEndInitialize.SSLConnection connection, SSLShield.IReceive receive)
         {
-            Logger.S_I.To(this, $"Был получен интерфейс для получения входящих tcp сообщений." +
+            Logger.S_I.To(this, $"Был получен интерфейс для получения входящих ssl сообщений." +
                 $"В ответ ожидает интерфейс для передачи данных на сервер.");
 
             _contentSetting.ReceiveMessage = receive.Receive;
@@ -39,7 +39,7 @@ namespace Zealot.client.connection._SSLShield
 
                 if (_contentSetting.Connection != null)
                 {
-                    Logger.S_I.To(this, $"Оповестим клиента об окончании инициализации tcp подключения.");
+                    Logger.S_I.To(this, $"Оповестим клиента об окончании инициализации ssl подключения.");
 
                     _contentSetting.Connection.EndInitialize(connection);
                 }
@@ -143,6 +143,8 @@ namespace Zealot.client.connection._SSLShield
                     Logger.S_I.To(this, "send message: connection to server.");
 
                     I_toConnection.To(this);
+
+                    IsRunning = true;
                 }
                 Logger.S_I.To(this, "start.");
             }

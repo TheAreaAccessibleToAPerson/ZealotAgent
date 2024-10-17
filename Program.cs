@@ -1,4 +1,6 @@
-﻿namespace Butterfly
+﻿using System.Text;
+
+namespace Butterfly
 {
     public sealed class Program
     {

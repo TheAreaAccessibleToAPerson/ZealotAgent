@@ -125,13 +125,7 @@ namespace Zealot.client.connection
             /// Принимает входящие сообщение типа массив байтов.
             /// </summary>
             public void Send(byte[] message);
-
-            /// <summary>
-            /// Принимает входящие сообщение типа обьект json.
-            /// </summary>
-            public void Send<JsonType>(JsonType message);
         }
-
     }
 }
 

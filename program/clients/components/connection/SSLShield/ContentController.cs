@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Text;
 using Butterfly;
 
 namespace Zealot.client.connection._SSLShield.content
@@ -16,17 +17,16 @@ namespace Zealot.client.connection._SSLShield.content
         /// <summary>
         /// Все входящие сообщения нужно перенаправить в данный метод.
         /// </summary> <summary>
-        public Client.IEndInitialize.SSLConnection Connection{ set; get; }
+        public Client.IEndInitialize.SSLConnection Connection { set; get; }
     }
 
     public abstract class Controller : Butterfly.Controller.Board.LocalField<Setting>
     {
-
         public const string NAME = "Shield" + SSLShield.NAME;
 
         protected Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        protected bool IsRunning = false;
+        protected bool IsRunning = true;
 
         protected IInput<SSLShield.IConnection> I_toConnection;
         protected IInput I_toDisconnection;
@@ -35,17 +35,60 @@ namespace Zealot.client.connection._SSLShield.content
 
         public void Send(string message)
         {
-            throw new NotImplementedException();
+            if (IsRunning)
+            {
+                try
+                {
+                    byte[] bytes = Encoding.ASCII.GetBytes(message);
+
+                    Socket.Send(bytes);
+                }
+                catch (SocketException socketExcetion)
+                {
+                    Logger.I.To(this, socketExcetion.ToString());
+
+                    destroy();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.S_I.To(this, ex.ToString());
+
+                    destroy();
+
+                    return;
+                }
+            }
         }
 
         public void Send(byte[] message)
         {
-            throw new NotImplementedException();
-        }
+            if (IsRunning)
+            {
+                try
+                {
+                    Logger.I.To(this, $"send message length:{message.Length}");
 
-        public void Send<JsonType>(JsonType message)
-        {
-            throw new NotImplementedException();
+                    Socket.Send(message);
+                }
+                catch (SocketException socketExcetion)
+                {
+                    Logger.I.To(this, socketExcetion.ToString());
+
+                    destroy();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.S_I.To(this, ex.ToString());
+
+                    destroy();
+
+                    return;
+                }
+            }
         }
 
         protected void ReceiveMessage()
@@ -62,7 +105,15 @@ namespace Zealot.client.connection._SSLShield.content
                         _clientReceive(length, buffer);
                     }
                 }
-                catch (SocketException ex)
+                catch (SocketException socketException)
+                {
+                    Logger.S_I.To(this, socketException.ToString());
+
+                    destroy();
+
+                    return;
+                }
+                catch (Exception ex)
                 {
                     Logger.S_I.To(this, ex.ToString());
 

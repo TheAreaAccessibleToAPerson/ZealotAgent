@@ -28,3 +28,4 @@
 /home/dmitry/Документы/Projects/Zealot/obj/Debug/net8.0/Zealot.pdb
 /home/dmitry/Документы/Projects/Zealot/obj/Debug/net8.0/Zealot.genruntimeconfig.cache
 /home/dmitry/Документы/Projects/Zealot/obj/Debug/net8.0/ref/Zealot.dll
+/home/dmitry/Документы/Projects/Zealot/obj/Debug/net8.0/Zealot.sourcelink.json

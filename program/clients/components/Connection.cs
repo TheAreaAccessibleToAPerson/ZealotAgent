@@ -69,6 +69,20 @@ namespace Zealot.client
 
                         I_creatingTCPConnection.To();
                     }
+                    else if (type == ssl.read.Type.CONNECTION)
+                    {
+                        Logger.I.To(_client, $"Соединение с сервером установлено.");
+
+                        _client.SystemInformation("CONNECT", ConsoleColor.Green);
+                    }
+                    else if (type == ssl.read.Type.DISCONNECTION)
+                    {
+                        Logger.I.To(_client, $"Сервер разорвал соединение.");
+
+                        _client.SystemInformation("DISCONNECT", ConsoleColor.Red);
+
+                        _client.destroy();
+                    }
                     else
                     {
                         Logger.S_E.To(_client, $"{NAME}:Неизвестный тип сообщения.");
@@ -99,6 +113,7 @@ namespace Zealot.client
 
         public interface IClient : IInformation
         {
+            public void SystemInformation(string message, ConsoleColor color);
         }
     }
 }

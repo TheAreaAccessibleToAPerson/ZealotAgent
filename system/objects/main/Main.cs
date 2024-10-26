@@ -3282,7 +3282,7 @@ namespace Butterfly.system.objects.main
             throw new System.Exception(message);
         }
 
-        protected void SystemInformation(string message, System.ConsoleColor color = System.ConsoleColor.Green)
+        public void SystemInformation(string message, System.ConsoleColor color = System.ConsoleColor.Green)
         {
             System.Console.ForegroundColor = color;
 

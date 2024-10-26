@@ -1,5 +1,6 @@
 using System.Net.Security;
 using System.Text;
+using Butterfly;
 
 namespace Zealot.client.connection
 {
@@ -7,39 +8,84 @@ namespace Zealot.client.connection
     {
         public const string NAME = "ClientConnection";
 
-        protected readonly IClient _client;
+        /// <summary>
+        /// Ключ который необходим для установления tcp соединения.
+        /// </summary> <summary>
+        protected string TcpKey { set; get; }
+
+        protected readonly Connection.IClient _client;
 
         private SSLShield.IConnection _sslConnection;
         private TCPShield.IConnection _tcpConnection;
 
-        public Controller(IClient client)
+        public Controller(Connection.IClient client)
         {
             _client = client;
         }
 
-        public void SetSSLConnection(SSLShield.IConnection value)
+        /// <summary>
+        /// Передает данные для авторизации. 
+        /// </summary>
+        public void SendSSLAuthorizationData(string login, string password)
         {
-            Logger.S_I.To(_client, $"initialize sslConnection");
+            Logger.S_I.To(_client, $"send authorization data");
 
-            _sslConnection = value;
-
-            _sslConnection.Send(GetBuffer(System.Text.Json.JsonSerializer.Serialize(new ssl.write.ClientAuthorization()
+            if (_sslConnection != null)
             {
-                Login = "login",
-                Password = "password"
+                _sslConnection.Send(GetHeader(ssl.write.Type.AUTHORIZATION,
+                    System.Text.Json.JsonSerializer.Serialize(new ssl.write.ClientAuthorization()
+                    {
+                        Login = login,
+                        Password = password
+                    }
+                )));
             }
-            )));
+            else
+            {
+                Logger.S_E.To(_client, $"Неудалось передать данные авторизации на сервер. Ссылка на _sslConnection равна null.");
+
+                _client.destroy();
+
+                return;
+            }
         }
 
-        private byte[] GetBuffer(string str)
+        /// <summary>
+        /// Передаем ключ что бы сервер распознал tcp подключение.
+        /// </summary>
+        public void SendTCPKey()
+        {
+            if (TcpKey == null)
+            {
+                Logger.S_E.To(_client, $"Неудалось передать ключ по tcp так как он небыл присвоен/получен.");
+
+                _client.destroy();
+
+                return;
+            }
+            else
+            {
+                Logger.S_I.To(_client, $"send tcp_key");
+
+                _tcpConnection.Send(GetHeader(tcp.write.Type.KEY,
+                    System.Text.Json.JsonSerializer.Serialize(new tcp.write.Key()
+                    {
+                        Value = TcpKey
+                    }
+                )));
+            }
+        }
+
+
+        private byte[] GetHeader(int type, string str)
         {
             byte[] buffer = new byte[MessageHeader.LENGHT + str.Length];
 
             int length = Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, MessageHeader.LENGHT);
             {
                 buffer[MessageHeader.LENGTH_BYTE_INDEX] = MessageHeader.LENGHT;
-                buffer[MessageHeader.TYPE_1BYTE_INDEX] = ssl.write.Type.AUTHORIZATION >> 8;
-                buffer[MessageHeader.TYPE_2BYTE_INDEX] = ssl.write.Type.AUTHORIZATION;
+                buffer[MessageHeader.TYPE_1BYTE_INDEX] = (byte)(type >> 8);
+                buffer[MessageHeader.TYPE_2BYTE_INDEX] = (byte)type;
                 buffer[MessageHeader.MESSAGE_LENGTH_1BYTE_INDEX] = (byte)(length >> 24);
                 buffer[MessageHeader.MESSAGE_LENGTH_2BYTE_INDEX] = (byte)(length >> 16);
                 buffer[MessageHeader.MESSAGE_LENGTH_3BYTE_INDEX] = (byte)(length >> 8);
@@ -49,22 +95,26 @@ namespace Zealot.client.connection
             return buffer;
         }
 
+        public void SetSSLConnection(SSLShield.IConnection value)
+        {
+            if (_sslConnection != null)
+            {
+                Logger.S_I.To(_client, $"Переназначена ссылка на SSL соединение.");
+            }
+            else Logger.S_I.To(_client, $"Получена ссылка на SSL соединение.");
+
+            _sslConnection = value;
+        }
+
         public void SetTCPConnection(TCPShield.IConnection value)
         {
-            if (_tcpConnection != null)
+            if (_sslConnection != null)
             {
-                Logger.S_I.To(_client, $"initialize tcpConnection");
-
-                _tcpConnection = value;
+                Logger.S_I.To(_client, $"Переназначена ссылка на TCP соединение.");
             }
-            else
-            {
-                Logger.S_E.To(_client, $"{NAME}:Попытка повторно присвоить значение tcpConnection");
+            else Logger.S_I.To(_client, $"Получена ссылка на TCP соединение.");
 
-                _client.Destroy();
-
-                return;
-            }
+            _tcpConnection = value;
         }
     }
 }

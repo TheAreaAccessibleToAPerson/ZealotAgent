@@ -18,6 +18,8 @@ namespace Zealot
                 listen_events(Event.SYSTEM, Event.SYSTEM);
                 listen_events(Event.SYSTEM_1000_TIME_STEP, Event.SYSTEM, 1000);
                 listen_events(Event.LOGGER, Event.LOGGER);
+                listen_events(Event.SSL_SEND, Event.SSL_SEND);
+                listen_events(Event.TCP_SEND, Event.TCP_SEND);
 
                 input_to(ref Logger.S_I, Event.LOGGER, _writingText.SystemInformation);
                 input_to(ref Logger.S_W, Event.LOGGER, _writingText.SystemWarning);

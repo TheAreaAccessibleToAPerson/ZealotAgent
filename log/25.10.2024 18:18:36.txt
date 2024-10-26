@@ -1,0 +1,86 @@
+[CN]/system/Header/Program:success creating program object.
+[CN]/system/Header/Program/program:start construction ...
+[CN]/system/Header/Program/program:end construction.
+[CN]/system/Header/Program/program:start configurate ...
+[CN]/system/Header/Program/program:end configurate.
+[CN]/system/Header/Program/program:starting ...
+[CN]/system/Header/Program/program:start.
+[CN]/system/Header/Program/Client/client:start construction ...
+[CN]/system/Header/Program/Client/client:end construction.
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:start construction ...
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:end construction.
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:start construction ...
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:end construction.
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:start configurate ...
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:Из файла data/SSLServerData.txt был получен адрес и порт удаленого сервера для tcp соединения 127.0.0.1:55001
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:end configurate.
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:start configurate ...
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:Из файла data/TCPServerData.txt был получен адрес и порт удаленого сервера для tcp соединения 127.0.0.1:55000
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:end configurate.
+[CN]/system/Header/Program/Client/client:start configurate ...
+[CN]/system/Header/Program/Client/client:end configurate.
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:starting ...
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:start.
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:starting ...
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:start.
+[CN]/system/Header/Program/Client/client:starting ...
+[CN]/system/Header/Program/Client/client:start.
+[CN]/system/Header/Program/Client/client:State:change state. current state None
+[CN]/system/Header/Program/Client/client:State:change of state None -> LoadingData
+[CN]/system/Header/Program/Client/client:loading data ...
+[CN]/system/Header/Program/Client/client:client:Data:Загрузка логина и пороля прошла успешно!
+[CN]/system/Header/Program/Client/client:LoadingData call
+[CN]/system/Header/Program/Client/client:State:change of state LoadingData -> ConnectionSSL
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:Был получен интерфейс для получения входящих ssl сообщений.В ответ ожидает интерфейс для передачи данных на сервер.
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:creating object ShieldSSLConnection
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:start construction ...
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:end construction.
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:start configurate ...
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:start setting ...
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:client receive message initialize.
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:end setting.
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:setting success
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:connection ...
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:connect.
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:connection success
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:end configurate.
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:starting ...
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:send message: connection to server.
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:success connection to server
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:Оповестим клиента об окончании инициализации ssl подключения.
+[CN]/system/Header/Program/Client/client:ssl shield end initilize
+[CN]/system/Header/Program/Client/client:Получена ссылка на SSL соединение.
+[CN]/system/Header/Program/Client/client:SSLShield.IReceive.EndInitialize call
+[CB]/system/Header/Program/Client/SSLShield/SSLConnection:SuccessConnection call
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:start.
+[CN]/system/Header/Program/Client/client:State:change state. current state ConnectionSSL
+[CN]/system/Header/Program/Client/client:State:change of state ConnectionSSL -> Authorization
+[CN]/system/Header/Program/Client/client:Передаем данные для авторизации на сервер.
+[CN]/system/Header/Program/Client/client:send authorization data
+[CN]/system/Header/Program/Client/client:State.IClient call
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:send message length:46
+[BN]/system/Header/Program/Client/SSLShield/Content/ShieldSSLConnection:Поступило новое сообщение длиной 19
+[CN]/system/Header/Program/Client/client:ClientConnection:Receive message length 19
+[CN]/system/Header/Program/Client/client:ClientConnection:Message:RequestTCPConnection
+[CN]/system/Header/Program/Client/client:ClientConnection:CreatingTCPConnection call
+[CN]/system/Header/Program/Client/client:State:change state. current state Authorization
+[CN]/system/Header/Program/Client/client:State:change of state Authorization -> ConnectionTCP
+[CN]/system/Header/Program/Client/client:State:initialize tcp
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:Был получен интерфейс для получения входящих tcp сообщений.В ответ ожидает интерфейс для передачи данных на сервер.
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:creating object ShieldTCPConnection
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:start construction ...
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:end construction.
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:start configurate ...
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:start setting ...
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:client receive message initialize.
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:end setting.
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:setting success
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:connection ...
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:connect.
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:connection success
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:end configurate.
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:starting ...
+[BN]/system/Header/Program/Client/TCPShield/Content/ShieldTCPConnection:send message: connection to server.
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:success connection to server
+[CB]/system/Header/Program/Client/TCPShield/TCPConnection:Оповестим клиента об окончании инициализации tcp подключения.
+[CN]/system/Header/Program/Client/client:Соединение с сервереом в TCPShield установлено.

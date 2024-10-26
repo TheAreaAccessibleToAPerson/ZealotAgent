@@ -11,12 +11,12 @@ namespace Zealot.client.connection._SSLShield.content
 
         /// <summary>
         /// Все входящие сообщения нужно перенаправить в данный метод.
-        /// </summary> <summary>
+        /// </summary>
         public Action<int, byte[]> ReceiveMessage { set; get; }
 
         /// <summary>
         /// Все входящие сообщения нужно перенаправить в данный метод.
-        /// </summary> <summary>
+        /// </summary>
         public Client.IEndInitialize.SSLConnection Connection { set; get; }
     }
 
@@ -31,63 +31,70 @@ namespace Zealot.client.connection._SSLShield.content
         protected IInput<SSLShield.IConnection> I_toConnection;
         protected IInput I_toDisconnection;
 
+        protected IInput<byte[]> I_sendBytes;
+        protected IInput<string> I_sendString;
+
         private Action<int, byte[]> _clientReceive;
 
         public void Send(string message)
         {
-            if (IsRunning)
-            {
-                try
-                {
-                    byte[] bytes = Encoding.ASCII.GetBytes(message);
-
-                    Socket.Send(bytes);
-                }
-                catch (SocketException socketExcetion)
-                {
-                    Logger.I.To(this, socketExcetion.ToString());
-
-                    destroy();
-
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    Logger.S_I.To(this, ex.ToString());
-
-                    destroy();
-
-                    return;
-                }
-            }
+            if (IsRunning) I_sendString.To(message);
         }
 
         public void Send(byte[] message)
         {
-            if (IsRunning)
+            if (IsRunning) I_sendBytes.To(message);
+        }
+
+        public void Sending(string message)
+        {
+            try
             {
-                try
-                {
-                    Logger.I.To(this, $"send message length:{message.Length}");
+                byte[] bytes = Encoding.ASCII.GetBytes(message);
 
-                    Socket.Send(message);
-                }
-                catch (SocketException socketExcetion)
-                {
-                    Logger.I.To(this, socketExcetion.ToString());
+                Socket.Send(bytes);
+            }
+            catch (SocketException socketExcetion)
+            {
+                Logger.I.To(this, socketExcetion.ToString());
 
-                    destroy();
+                destroy();
 
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    Logger.S_I.To(this, ex.ToString());
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.S_I.To(this, ex.ToString());
 
-                    destroy();
+                destroy();
 
-                    return;
-                }
+                return;
+            }
+        }
+
+        public void Sending(byte[] message)
+        {
+            try
+            {
+                Logger.I.To(this, $"send message length:{message.Length}");
+
+                Socket.Send(message);
+            }
+            catch (SocketException socketExcetion)
+            {
+                Logger.I.To(this, socketExcetion.ToString());
+
+                destroy();
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.S_I.To(this, ex.ToString());
+
+                destroy();
+
+                return;
             }
         }
 
@@ -101,6 +108,8 @@ namespace Zealot.client.connection._SSLShield.content
                     {
                         byte[] buffer = new byte[65536];
                         int length = Socket.Receive(buffer);
+
+                        Logger.I.To(this, $"Поступило новое сообщение длиной {length}");
 
                         _clientReceive(length, buffer);
                     }

@@ -1,4 +1,3 @@
-using Butterfly;
 using Zealot.client.connection;
 
 namespace Zealot
@@ -13,6 +12,9 @@ namespace Zealot
             {
                 obj<SSLShield>(SSLShield.NAME);
                 obj<TCPShield>(TCPShield.NAME);
+
+                input_to(ref Connection.I_creatingTCPConnection, Event.SYSTEM, State.Change);
+                input_to(ref State.I_sendTCPKey, Connection.SendTCPKey);
             }
             Logger.S_I.To(this, "end construction.");
         }

@@ -21,6 +21,12 @@ namespace Zealot
         /// <summary>
         /// Событие обрабатывающее логер.
         /// </summary> <summary>
-        public const string LOGGER = NAME + "Logger";
+        public const string LOGGER = NAME + _.s + "Logger";
+
+        public const string SSL_SEND = NAME + _.s + "SSLSend";
+        public const string SSL_RECEIVE = NAME + _.s + "SSLReceive";
+
+        public const string TCP_SEND = NAME + _.s + "TCPSend";
+        public const string TCP_RECEIVE = NAME + _.s + "TCPReceive";
     }
 }

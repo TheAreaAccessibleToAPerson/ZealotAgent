@@ -46,5 +46,7 @@ namespace Butterfly.system.objects.main
         /// </summary>
         /// <returns></returns>
         public manager.IGlobalObjects GlobalObjectsManager();
+
+        public void destroy();
     }
 }

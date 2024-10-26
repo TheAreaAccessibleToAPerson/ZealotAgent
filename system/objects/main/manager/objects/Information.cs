@@ -27,5 +27,9 @@ namespace Butterfly.system.objects.main
         public manager.IGlobalObjects GlobalObjectsManager() 
             => Information.GlobalObjectsManager();
 
+        public void destroy()
+        {
+            throw new Exception();
+        }
     }
 }

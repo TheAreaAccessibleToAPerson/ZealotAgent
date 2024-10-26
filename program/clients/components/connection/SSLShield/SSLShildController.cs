@@ -93,7 +93,7 @@ namespace Zealot.client.connection._SSLShield
 
         protected bool TryGetServerAddress()
         {
-            if (Data.TryGetServerSSLAddress(out string addr, out uint port, out string info))
+            if (Zealot.Data.TryGetServerSSLAddress(out string addr, out uint port, out string info))
             {
                 Logger.S_I.To(this, info);
 
@@ -128,6 +128,8 @@ namespace Zealot.client.connection._SSLShield
             {
                 Logger.S_I.To(this, "start construction ...");
                 {
+                    add_event(Event.SSL_RECEIVE, ReceiveMessage);
+
                     send_message(ref I_toConnection, SSLShield.BUS.Content.Message.SUCCESS_CONNECTION);
                     send_impuls(ref I_toDisconnection, SSLShield.BUS.Content.Impuls.ERROR_CONNECTION);
                 }
@@ -175,6 +177,9 @@ namespace Zealot.client.connection._SSLShield
                     if (Connection())
                     {
                         Logger.S_I.To(this, "connection success");
+
+                        input_to(ref I_sendBytes, Event.TCP_SEND, Sending);
+                        input_to(ref I_sendString, Event.TCP_SEND, Sending);
 
                         Logger.S_I.To(this, "end configurate.");
                     }

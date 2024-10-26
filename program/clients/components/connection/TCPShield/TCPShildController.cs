@@ -93,7 +93,7 @@ namespace Zealot.client.connection._TCPShield
 
         protected bool TryGetServerAddress()
         {
-            if (Data.TryGetServerTCPAddress(out string addr, out uint port, out string info))
+            if (Zealot.Data.TryGetServerTCPAddress(out string addr, out uint port, out string info))
             {
                 Logger.S_I.To(this, info);
 
@@ -174,6 +174,9 @@ namespace Zealot.client.connection._TCPShield
                     {
                         Logger.S_I.To(this, "connection success");
 
+                        input_to(ref I_sendBytes, Event.TCP_SEND, Sending);
+                        input_to(ref I_sendString, Event.TCP_SEND, Sending);
+
                         Logger.S_I.To(this, "end configurate.");
                     }
                     else Logger.S_I.To(this, "configurate exception.");
@@ -183,6 +186,8 @@ namespace Zealot.client.connection._TCPShield
 
             void Destroyed()
             {
+                IsRunning = false;
+
                 Logger.S_I.To(this, "start destroyed ...");
                 {
                     if (Disconnect())

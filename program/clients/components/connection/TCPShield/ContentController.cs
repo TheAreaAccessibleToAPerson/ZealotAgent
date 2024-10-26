@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using System.Text;
 using Butterfly;
 
 namespace Zealot.client.connection._TCPShield.content
@@ -16,7 +17,7 @@ namespace Zealot.client.connection._TCPShield.content
         /// <summary>
         /// Все входящие сообщения нужно перенаправить в данный метод.
         /// </summary> <summary>
-        public Client.IEndInitialize.TCPConnection Connection{ set; get; }
+        public Client.IEndInitialize.TCPConnection Connection { set; get; }
     }
 
     public abstract class Controller : Butterfly.Controller.Board.LocalField<Setting>
@@ -26,22 +27,77 @@ namespace Zealot.client.connection._TCPShield.content
 
         protected Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        protected bool IsRunning = false;
+        protected bool IsRunning = true;
 
         protected IInput<TCPShield.IConnection> I_toConnection;
         protected IInput I_toDisconnection;
 
+        protected IInput<byte[]> I_sendBytes;
+        protected IInput<string> I_sendString;
+
         private Action<int, byte[]> _clientReceive;
 
-        public void Send(string message)
+        protected void Sending(string message)
         {
-            throw new NotImplementedException();
+            if (IsRunning)
+            {
+                try
+                {
+                    byte[] bytes = Encoding.ASCII.GetBytes(message);
+
+                    Socket.Send(bytes);
+                }
+                catch (SocketException socketExcetion)
+                {
+                    Logger.I.To(this, socketExcetion.ToString());
+
+                    destroy();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.S_I.To(this, ex.ToString());
+
+                    destroy();
+
+                    return;
+                }
+            }
         }
 
-        public void Send(byte[] message)
+        protected void Sending(byte[] message)
         {
-            throw new NotImplementedException();
+            if (IsRunning)
+            {
+                try
+                {
+                    Logger.I.To(this, $"send message length:{message.Length}");
+
+                    Socket.Send(message);
+                }
+                catch (SocketException socketExcetion)
+                {
+                    Logger.I.To(this, socketExcetion.ToString());
+
+                    destroy();
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.S_I.To(this, ex.ToString());
+
+                    destroy();
+
+                    return;
+                }
+            }
         }
+
+        public void Send(string message) => I_sendString.To(message);
+
+        public void Send(byte[] message) => I_sendBytes.To(message);
 
         public void Send<JsonType>(JsonType message)
         {

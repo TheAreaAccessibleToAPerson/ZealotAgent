@@ -23,7 +23,7 @@ namespace Butterfly.system.objects.root.other
             int asldkgjag8as8g8asgaskjgahjahd7fh7df77hsfdhdfkj = 500;
 
             System.Console.ForegroundColor = System.ConsoleColor.Green;
-            global::System.Console.WriteLine(sdkfjas8d7583457kjskgjdfgkdfjglskfjgsdfgj + "                 [alpha version 0.1]\n");
+            global::System.Console.WriteLine("\n" + sdkfjas8d7583457kjskgjdfgkdfjglskfjgsdfgj + "                        [AGENT]\n");
         }
     }
 }
